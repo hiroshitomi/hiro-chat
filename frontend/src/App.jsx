@@ -1,6 +1,7 @@
 
 import './App.css'
 import Login from './pages/login/Login'
+import SignUp from './pages/signup/SignUp'
 
 function App() {
 
@@ -9,7 +10,7 @@ function App() {
     <h1 className='text-4xl text-blue-500 pb-2'>
       Welcome to HiroChat
     </h1>
-    <Login/>
+    <SignUp/>
     </div>
   )
 }
