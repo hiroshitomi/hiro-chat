@@ -1,5 +1,7 @@
 import Conversation from "../models/conversation.model.js"
 import Message from "../models/message.model.js"
+import { getReceiverSocketId } from "../socket/socket.js"
+import { io } from "../socket/socket.js"
 
 export const sendMessage = async (req, res) => {
     try {
@@ -27,14 +29,20 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id)
         }
 
-        //SOCKET IO FUNCTIONALITY WILL GO HERE
-
         // primero se ejecuta uno y despues el otro
         // await conversation.save()
         // await newMessage.save()
 
         // se ejecutan en el mismo tiempo
         await Promise.all([conversation.save(), newMessage.save()])
+
+        //SOCKET IO FUNCTIONALITY WILL GO HERE
+        const receiverSocketId = getReceiverSocketId(receiverId)
+        if (receiverSocketId) {
+            // io.to(socketId).emit() used to send events to a specific client 
+            io.to(receiverSocketId).emit("newMessage", newMessage)
+        }
+
 
         res.status(201).json(newMessage)
 
