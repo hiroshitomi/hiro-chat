@@ -16,7 +16,9 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (authUser){
-            const socket = io("http://localhost:5000", {
+            // use url when you develop and then change url when you deploy
+            // const socket = io("http://localhost:5000", {
+            const socket = io("https://hiro-chat.onrender.com", {
                 query: {
                     userId: authUser._id
                 }
